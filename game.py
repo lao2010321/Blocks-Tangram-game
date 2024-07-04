@@ -1,5 +1,14 @@
+"""
+using python 3.12.4
+pygame 2.1.3
+easygui 0.98.3
+to make the game run, please install git and run the command "git clone " in the terminal
+"""
+
+
+
 import pygame
-from easygui import integerbox
+from easygui import integerbox,ynbox,buttonbox
 from random import randint
 import sys
 
@@ -18,7 +27,7 @@ piece_images = {
     "1x2": pygame.image.load("1x2.png").convert_alpha(),
     "2x1": pygame.image.load("2x1.png").convert_alpha()
 }
-
+parts = []
 class Part(pygame.sprite.Sprite):
     def __init__(self, x, y, size, image):
         pygame.sprite.Sprite.__init__(self)
@@ -30,6 +39,15 @@ class Part(pygame.sprite.Sprite):
         self.dragging = False  # 是否正在被拖动
         self.offset_x = 0  # 鼠标点击位置与七巧板左上角的偏移量
         self.offset_y = 0
+        run = True
+        while run:
+            run = False
+            for part in parts:
+                if part != self and self.rect.colliderect(part.rect):
+                    run = True
+                    self.rect.x = randint(2, 14) * 50
+                    self.rect.y = randint(2, 10) * 50
+
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
@@ -56,11 +74,29 @@ class Part(pygame.sprite.Sprite):
                 return True
         return False
 
+    def get_new_place(self):
+        self.rect.x = randint(2, 14) * 50
+        self.rect.y = randint(2, 10) * 50
+
+level = {
+    '1':{"50": 4,"50x100": 3,"100x50": 1},
+    '2':{"50": 3,"50x100": 3,"100x50": 3},
+    '3':{"50": 6,"100x50": 5,"50x100": 4},
+    '4':{"50":10,"100x50": 7,"50x100": 9}
+}
+
+
 def get_input():
-    parts = []
-    p1x1 = integerbox("请输入1x1的七巧板的个数", "输入", 4, 2, 15)
-    p1x2 = integerbox("请输入1x2的七巧板的个数", "输入", 4, 2, 15)
-    p2x1 = integerbox("请输入2x1的七巧板的个数", "输入", 4, 2, 15)
+    global parts
+    if ynbox("是否想要使用预设？", "选择", ("是", "否")):
+        t = buttonbox("请选择一个预设", "预设", ("1", "2", "3", "4"))
+        p1x1 = level[str(t)]["50"]
+        p1x2 = level[str(t)]["50x100"]
+        p2x1 = level[str(t)]["100x50"]
+    else:
+        p1x1 = integerbox("请输入1x1的七巧板的个数", "输入", 4, 2, 15)
+        p1x2 = integerbox("请输入1x2的七巧板的个数", "输入", 4, 2, 15)
+        p2x1 = integerbox("请输入2x1的七巧板的个数", "输入", 4, 2, 15)
     for i in range(p1x1):
         parts.append(Part(randint(2, 14) * 50, randint(2, 14) * 50, "1x1", piece_images["1x1"]))
     for i in range(p2x1):
@@ -95,8 +131,8 @@ def main():
                         if part.dragging:
                             part.snap_to_grid()  # 拖动结束时自动对齐到网格
                             if part.check_collision(parts_group.sprites()):
-                                # 如果发生碰撞，将七巧板放回初始位置
-                                part.rect.x, part.rect.y = part.original_pos
+                                # 如果发生碰撞，将七巧板放到可放置位置
+                                part.get_new_place()
                             part.dragging = False
 
             elif event.type == pygame.MOUSEMOTION:
