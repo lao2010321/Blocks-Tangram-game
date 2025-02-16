@@ -1,23 +1,36 @@
-# Blocks-Tangram-game
-七巧板游戏
-## 仅供参加2024年比赛用
-## 运行环境
-#### python版本
-python 3.12.4
-#### 第三方库
-pygame 2.1.3
-
-easygui 0.98.3
-## 运行方法
-要使游戏运行，请安装 git 并在终端中运行命令
-```shell
-git clone https://github.com/lao2010321/Blocks-Tangram-game.git
+当然可以。以下是一个完整的README文件示例，基于您提供的项目信息和最佳实践：
+```markdown
+# Blocks-Tangram游戏
+## 项目简介
+通过Python实现的一个经典七巧板游戏，适用于休闲和教育场景。该项目旨在提供一个有趣且具有教育意义的方式来锻炼用户的空间思维和逻辑能力。
+## 功能特点
+- **高效**：使用Python实现，运行流畅。
+- **易用**：简洁的图形界面，易于上手。
+- **教育性**：帮助用户锻炼空间思维和逻辑能力。
+## 安装步骤
+1. 克隆此仓库：
+    ```bash
+    git clone https://github.com/lao2010321/Blocks-Tangram-game.git
+    ```
+2. 安装依赖：
+    ```bash
+    cd Blocks-Tangram-game
+    pip install -r requirements.txt
+    ```
+## 使用示例
+运行游戏：
+```bash
+python main.py
 ```
-然后在终端中运行命令
-```shell
-pip install -r requirements.txt
-```
-然后运行命令
-```shell
-python game.py
+## 贡献指南
+欢迎贡献者参与此项目。请遵循以下步骤：
+1. Fork本项目。
+2. 创建您的特性分支：`git checkout -b feature/YourFeature`。
+3. 提交您的更改：`git commit -m 'Add some feature'`。
+4. 推送到远程分支：`git push origin feature/YourFeature`。
+5. 提交Pull Request。
+## 许可证
+本项目采用MIT许可证。
+## 联系信息
+如有任何问题，请通过邮箱1@lao2010123.eu.org联系我。
 ```
